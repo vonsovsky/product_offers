@@ -27,13 +27,18 @@ class DBModel:
             products = [{'id': row[0], 'name': row[1], 'description': row[2]} for row in cursor.fetchall()]
             return products
 
+    # TODO we could make in-memory check whether something changed and update only those
     # TODO batching if we have a lot of products
     def insert_offers(self, offer_map: Dict[int, List[Dict[str, int]]]) -> None:
         with self._conn.cursor() as cursor:
             for product_id, offers in offer_map.items():
-                query = "DELETE FROM offers WHERE product = {}".format(product_id)
-                cursor.execute(query)
                 for offer in offers:
-                    query = "INSERT INTO offers (product, price, items_in_stock) VALUES ({}, {}, {})"\
-                        .format(product_id, offer['price'], offer['items_in_stock'])
+                    query = "SELECT id FROM offers WHERE ms_id = {}".format(offer['id'])
+                    cursor.execute(query)
+                    if cursor.fetchone() is None:
+                        query = "INSERT INTO offers (product, ms_id, price, items_in_stock) VALUES ({}, {}, {}, {})"\
+                            .format(product_id, offer['id'], offer['price'], offer['items_in_stock'])
+                    else:
+                        query = "UPDATE offers SET price={}, items_in_stock={} WHERE ms_id={}"\
+                            .format(offer['price'], offer['items_in_stock'], offer['id'])
                     cursor.execute(query)
