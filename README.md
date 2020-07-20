@@ -27,3 +27,7 @@ Environment variables from installation section must be set.
 Execute `flask run` to prepare CRUD architecture on http://127.0.0.1:5000/products/.
 
 Adding new product by CREATE mode will trigger new product being added to offers microservice.
+
+### Testing
+
+run `pytest`
