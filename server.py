@@ -5,7 +5,7 @@ import logging
 
 app = create_app()
 product_service = OfferService()
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 @app.route('/products/', methods=['GET'])

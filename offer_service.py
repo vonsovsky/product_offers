@@ -1,6 +1,9 @@
 from typing import List, Dict
 import requests
 from config import Config
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class BearerToken:
@@ -59,9 +62,9 @@ class OfferService:
         if response.status_code == 401:
             if retries > 0:
                 self.bearer_token.reset_token()
-                self.get_offers(id, retries - 1)
+                return self.get_offers(id, retries - 1)
             else:
                 raise requests.HTTPError("{}: {}".format(data['code'], data['msg']))
         if response.status_code == 404:
-            print("Error not found: {}".format(data['msg']))
+            logging.error("Error not found: %s", data['msg'])
             return []
