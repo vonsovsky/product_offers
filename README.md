@@ -1,4 +1,4 @@
-# product_offers
+# Product offers
 Simple Flask app for product and their offers management. A product is being updated with their offers via microservice.
 
 ## Installation
@@ -7,20 +7,22 @@ Simple Flask app for product and their offers management. A product is being upd
 
 Set up environment variables with `SET` on Windows or `export` on Linux
 
-SET PRODUCT_BASE_URL=<your microservice url here>
+SET PRODUCT_BASE_URL=&lt;your microservice url here&gt;
+
 SET FLASK_APP=server.py
+
 SET FLASK_DEBUG=1
 
 ## Usage
 
-run `rq worker po-task` in bash to prepare RQ worker for background task
-In order to test worker, you can run it manually in python shell:
-```
-from redis import Redis
-import rq
-queue = rq.Queue('po-task', connection=Redis.from_url('redis://'))
-job = queue.enqueue('worker.update_offers')
-```
+### Background job
+
+run `rq worker po-task` in bash to prepare RQ worker for background task.
+
+run `python run_worker.py` to schedule microservice calls every minute.
+Environment variables from installation section must be set.
+
+### Web service
 
 Execute `flask run` to prepare CRUD architecture on http://127.0.0.1:5000/products/.
 
