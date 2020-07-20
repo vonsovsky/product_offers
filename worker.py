@@ -16,4 +16,3 @@ def update_offers():
         offer_map[product['id']] = service.get_offers(product['id'])
 
     db.insert_offers(offer_map)
-
