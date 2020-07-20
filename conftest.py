@@ -9,8 +9,11 @@ TEST_FILE = "test.sqlite3"
 @pytest.fixture(scope='session')
 def db():
     conn = CustomConnection(TEST_FILE)
-    db_model = DBModel(conn=conn)
+    db_model = DBModel()
+    db_model._conn = conn
     _create_structure(db_model)
+
+    return db_model
 
 
 def _create_structure(db_model):
