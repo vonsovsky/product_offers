@@ -13,5 +13,15 @@ SET FLASK_DEBUG=1
 
 ## Usage
 
-CRUD architecture on http://127.0.0.1:5000/products/ when `flask run` is executed.
-Job is running in the background to update offers every hour.
+run `rq worker po-task` in bash to prepare RQ worker for background task
+In order to test worker, you can run it manually in python shell:
+```
+from redis import Redis
+import rq
+queue = rq.Queue('po-task', connection=Redis.from_url('redis://'))
+job = queue.enqueue('worker.update_offers')
+```
+
+Execute `flask run` to prepare CRUD architecture on http://127.0.0.1:5000/products/.
+
+Adding new product by CREATE mode will trigger new product being added to offers microservice.
