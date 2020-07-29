@@ -3,8 +3,6 @@ from offer_service import OfferService
 import requests
 from unittest.mock import Mock
 
-TEST_FILE = "test.sqlite3"
-
 
 @pytest.fixture
 def offer_service():

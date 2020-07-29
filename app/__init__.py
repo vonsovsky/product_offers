@@ -1,13 +1,11 @@
 from flask import Flask
-from model import DBModel
 from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-db = DBModel()
+app = Flask(__name__)
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
-
-def create_app(config_class=Config):
-    app = Flask(__name__)
-    app.config.from_object(config_class)
-    db.init_app(config_class.SQLITE_FILE)
-
-    return app
+from app import models

@@ -15,6 +15,10 @@ SET FLASK_DEBUG=1
 
 Be sure to have installed and running [Redis](https://redis.io/) server
 
+### Prepare database
+
+Run `flask db upgrade` to create sqlite file if does not exists. However, it is already bundled with git.
+
 ## Usage
 
 ### Background job

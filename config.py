@@ -1,9 +1,14 @@
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
     TESTING = False
-    SQLITE_FILE = "db.sqlite3"
 
     base_url_key = 'PRODUCT_BASE_URL'
     if base_url_key not in os.environ:

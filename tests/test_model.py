@@ -1,7 +1,8 @@
+from app.models import Product, Offer
+
+
 def populate_products(db):
-    with db.get_cursor() as cursor:
-        query = "DELETE FROM products"
-        cursor.execute(query)
+    Product.query.delete()
 
     db.create_product("Zámek", "Vybydlený zámek ve starém městě bez vodovodu")
     db.create_product("Důl", "Uzavřený uhelný důl OKD promořený koronavirem")
@@ -45,14 +46,11 @@ def test_insert_offers(db):
 
     db.insert_offers(offer_map)
 
-    with db.get_cursor() as cursor:
-        query = "SELECT ms_id, price FROM offers"
-        cursor.execute(query)
-        offers = [{'id': row[0], 'price': row[1]} for row in cursor.fetchall()]
+    offers = Offer.query.all()
 
-    assert offers[0]['id'] == 4
-    assert offers[0]['price'] == 1000
-    assert offers[1]['id'] == 6
-    assert offers[2]['id'] == 8
-    assert offers[2]['price'] == 4000
-    assert offers[3]['id'] == 10
+    assert offers[0].ms_id == 4
+    assert offers[0].price == 1000
+    assert offers[1].ms_id == 6
+    assert offers[2].ms_id == 8
+    assert offers[2].price == 4000
+    assert offers[3].ms_id == 10
