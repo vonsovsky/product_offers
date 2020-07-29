@@ -4,7 +4,7 @@ import os
 import tempfile
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='module')
 def db():
     db_fd, server.app.config['DATABASE'] = tempfile.mkstemp()
     with server.app.app_context():
