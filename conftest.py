@@ -1,19 +1,20 @@
 import pytest
-from model import DBModel
-from custom_connection import CustomConnection
-
-
-TEST_FILE = "test.sqlite3"
+import server
+import os
+import tempfile
 
 
 @pytest.fixture(scope='session')
 def db():
-    conn = CustomConnection(TEST_FILE)
-    db_model = DBModel()
-    db_model._conn = conn
-    _create_structure(db_model)
+    db_fd, server.app.config['DATABASE'] = tempfile.mkstemp()
+    with server.app.app_context():
+        server.db.init_app(server.app.config['DATABASE'])
+        _create_structure(server.db)
 
-    return db_model
+        yield server.db
+
+    os.close(db_fd)
+    os.unlink(server.app.config['DATABASE'])
 
 
 def _create_structure(db_model):

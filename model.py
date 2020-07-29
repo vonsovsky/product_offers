@@ -45,3 +45,14 @@ class DBModel:
                         query = "UPDATE offers SET price={}, items_in_stock={} WHERE ms_id={}"\
                             .format(offer['price'], offer['items_in_stock'], offer['id'])
                     cursor.execute(query)
+
+    def update_product(self, id, name, description):
+        with self._conn.cursor() as cursor:
+            query = "UPDATE products SET name = \"{}\", description = \"{}\" WHERE id = {}"\
+                .format(name, description, id)
+            cursor.execute(query)
+
+    def delete_product(self, id):
+        with self._conn.cursor() as cursor:
+            query = "DELETE FROM products WHERE id = {}".format(id)
+            cursor.execute(query)
