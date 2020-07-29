@@ -13,6 +13,8 @@ SET FLASK_APP=server.py
 
 SET FLASK_DEBUG=1
 
+Be sure to have installed and running [Redis](https://redis.io/) server
+
 ## Usage
 
 ### Background job
